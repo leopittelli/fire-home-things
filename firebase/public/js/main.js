@@ -12,15 +12,37 @@ firebase.initializeApp(config);
 // Get a reference to the database service
 var database = firebase.database();
 
+var likeButton = document.getElementById("like-it");
+var likesCounter = document.getElementById("likes-counter");
+var mode = document.getElementById("mode");
+var text = document.getElementById("text");
+var initialized = false;
+
 var likesCountRef = database.ref('likes');
 likesCountRef.on('value', function(snapshot) {
-    console.log(snapshot.val().value)
+    if (!initialized) {
+        initialized = true;
+        likeButton.removeAttribute("disabled");
+    }
+    likesCounter.innerText = snapshot.val().value;
 });
 
-function likeIt() {
+var playerModeRef = database.ref('player/mode');
+playerModeRef.on('value', function(snapshot) {
+    mode.innerText = snapshot.val();
+});
+
+var playerTextRef = database.ref('player/text');
+playerTextRef.on('value', function(snapshot) {
+    text.innerText = snapshot.val();
+});
+
+likeButton.addEventListener("click", function() {
+    likeButton.setAttribute("disabled", "disabled");
+
     likesCountRef.transaction(function(likes) {
         var current = likes ? likes.value : 0;
         likes.value = current + 1;
         return likes;
     });
-}
+});

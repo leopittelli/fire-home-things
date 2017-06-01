@@ -2,6 +2,7 @@ package com.example.leonardo.androidhomethings;
 
 import java.util.Locale;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -14,16 +15,16 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference likesRef;
-    private DatabaseReference playerModeRef;
-    private DatabaseReference playerTextRef;
     private String activeMode = "number";
     private TextToSpeech mTtsEngine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.arranca);
+        mediaPlayer.start();
+
         initSpeaker();
     }
 
@@ -44,12 +45,15 @@ public class HomeActivity extends AppCompatActivity {
     private void speak(String type, CharSequence toSpeak) {
         if (this.activeMode.equals(type)) {
             mTtsEngine.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
-        } else {
-            mTtsEngine.speak("No reconozco ese modo", TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
 
     private void initFirebase() {
+        FirebaseDatabase mDatabase;
+        DatabaseReference likesRef;
+        DatabaseReference playerModeRef;
+        DatabaseReference playerTextRef;
+
         mDatabase = FirebaseDatabase.getInstance();
 
         likesRef = mDatabase.getReference("likes/value");

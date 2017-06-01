@@ -280,3 +280,32 @@ textarea {
         page-break-after: avoid;
     }
 }
+
+.container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.mdl-button {
+    height: 60px;
+    font-size: 30px;
+    margin: 20px 0;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000;
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 25px;
+}
+
+.footer-link:nth-of-type(1) {
+    margin-right: 20px;
+}
